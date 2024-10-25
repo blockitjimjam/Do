@@ -1,0 +1,11 @@
+<tkview>
+	<window title="Do - Home"/>
+	<layout>
+		<title text="Do home" row="0" column="0" center="ew"/>
+		<entry padx="10" row="1" column="0" length="50"/>
+		<button row="1" column="2" text="Add Todo" padx="10"/>
+		<radiobutton id="highimp" text="High importance" row="2" column="0" variable="options" value="1" />
+		<radiobutton id="medimp" text="Medium importance" row="3" column="0" variable="options" value="2" />
+        <radiobutton id="lowimp" text="Low importance" row="4" column="0" variable="options" value="3" />
+	</layout>
+</tkview>
