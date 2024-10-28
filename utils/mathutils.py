@@ -1,7 +1,7 @@
 import math
 # may never be used but you never know
 class MathUtils:
-    @staticmethod
+    @staticmethod 
     def triangle_area(b, h) -> float:
         return (b * h) / 2
     @staticmethod
