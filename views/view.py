@@ -6,15 +6,15 @@ from todo.importance import Importance
 import xml.etree.ElementTree as ET
 
 class View:
-    def __init__(self, main, xml_file: str): # main is an instance of App but due to circular import problems I was unable to import App
+    def __init__(self, main, xml_file: str) -> None: # main is an instance of App but due to circular import problems I was unable to import App
         self.root: Tk = main.instance
         self.xml_file: str = xml_file
         self.elements: dict = {} # Dictionary to store elements by id
         self.main = main 
         self.create_widgets()
-    def placeholder(self):
+    def placeholder(self) -> None:
         pass
-    def create_widgets(self):
+    def create_widgets(self) -> None:
         tree: ET.ElementTree = ET.parse(self.xml_file)
         root: ET.Element = tree.getroot() 
         for element in root:
@@ -32,15 +32,15 @@ class View:
             elif element.tag == "radiobutton":
                 self.create_radiobutton(element)
 
-    def create_label(self, element):
+    def create_label(self, element) -> None:
         label = self._create_widget(Label, element, text=element.get('text', ''))
         label.grid(**self._get_grid_options(element))
 
-    def create_title(self, element):
+    def create_title(self, element) -> None:
         title = self._create_widget(Label, element, text=element.get('text', ''), font=font.Font(family="Helvetica", size=20))
         title.grid(**self._get_grid_options(element))
 
-    def create_button(self, element):
+    def create_button(self, element) -> None:
         command_name = element.get('command', 'self.placeholder')
         args_str = element.get('args', '')
         # Set up some predefined variables to be used.
@@ -57,11 +57,11 @@ class View:
         button.grid(**self._get_grid_options(element))
 
 
-    def create_entry(self, element):
+    def create_entry(self, element) -> None:
         entry = self._create_widget(Entry, element, width=int(element.get('length', 0)))
         entry.grid(**self._get_grid_options(element))
 
-    def create_radiobutton(self, element):
+    def create_radiobutton(self, element) -> None:
         value = element.get('value', '')
         variable_id = element.get('variable', None)
         if variable_id:
@@ -75,14 +75,14 @@ class View:
         radiobutton.grid(**self._get_grid_options(element))
 
     def _create_widget(self, widget_class, element, **kwargs):
-        element_id = element.get('id')
+        element_id = element.get('id') or str(len(self.elements) + 1)
         widget = widget_class(self.root, **kwargs)
-        if element_id:
-            self.elements[element_id] = widget  # Store widget by id if specified
+        self.elements[element_id] = widget     
         return widget
 
-    def _get_grid_options(self, element):
-        """Helper function to extract grid options from XML attributes. This used to be repeated in all create funcs lol."""
+
+    def _get_grid_options(self, element) -> dict:
+        """Helper function to extract grid options from XML attributes. This used to be repeated in all create methods lol."""
         return {
             'row': int(element.get('row', 0)),
             'column': int(element.get('column', 0)),
