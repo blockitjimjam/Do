@@ -10,7 +10,7 @@ class App:
         self.instance: Tk = Tk()
         self.instance.title(title)
         self.instance.geometry(f"{str(geometry[0])}x{str(geometry[1])}")
-        style: Style = Style(theme="darkly")
+        style: Style = Style(theme="cyborg")
         self.view: View = View(self, "./views/home.xml")
         self.tasks: list = []
 if __name__ == "__main__":
