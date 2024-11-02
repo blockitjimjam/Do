@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import font
-from commands.addTodo import add_task
-from todo.importance import Importance
+from addTodo import add_task
+from importance import Importance
 import xml.etree.ElementTree as ET
 """This class reads an xml file and grids tkinter elements! how epic"""
 class View:

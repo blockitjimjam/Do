@@ -1,6 +1,6 @@
-from elements.element import Element
+from element import Element
 from tkinter import IntVar, Tk
-from elements.element import Element
+from element import Element
 from tkinter.ttk import *
 
 class TodoElement(Element): 

@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter.ttk import *
-from todo.importance import Importance
-from todo.todo import Todo
-from elements.todoTask import TodoElement
+from importance import Importance
+from todo import Todo
+from todoTask import TodoElement
 from tkinter.messagebox import showerror
 
 def add_task(app, name_entry: Entry) -> None: # app is an instance of App, from main.py. cicular imports cause problems here however, meaning I cannot annotate. I love python.

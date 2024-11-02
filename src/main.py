@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter.ttk import *
-from views.view import View
+from view import View
 from ttkbootstrap import Style
 from ttkbootstrap.constants import *
-from utils.systemUtils import SystemUtils
+from systemUtils import SystemUtils
 SystemUtils.add_to_sys_path(__file__)
 class App:
     def __init__(self, title: str, geometry: tuple) -> None:
