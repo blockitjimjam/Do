@@ -4,15 +4,15 @@ from tkinter import font
 from commands.addTodo import add_task
 from todo.importance import Importance
 import xml.etree.ElementTree as ET
+"""This class reads an xml file and grids tkinter elements! how epic"""
 class View:
     def __init__(self, main, xml_file: str) -> None: # main is an instance of App but due to circular import problems I was unable to import App
         self.root: Tk = main.instance
         self.xml_file: str = xml_file
         self.elements: dict = {} # Dictionary to store elements by id
-        self.main = main 
+        self.main = main # App.
         self.create_widgets()
-    def placeholder(self) -> None:
-        pass
+    def placeholder(self) -> None: ...
     def create_widgets(self) -> None:
         tree: ET.ElementTree = ET.parse(self.xml_file)
         root: ET.Element = tree.getroot() 
@@ -20,7 +20,7 @@ class View:
             if element.tag == "window":
                 self.root.title(element.get('title', ''))
         for element in root.find('layout'):
-            if element.tag == "label":
+            if element.tag == "label": # I hate python 3.9 where switch- i mean "match" statements don't eixst.
                 self.create_label(element)
             elif element.tag == "title":
                 self.create_title(element)
