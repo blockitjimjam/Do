@@ -1,5 +1,5 @@
 import math
-# may never be used but you never know
+# May never be used but you never know
 class MathUtils:
     @staticmethod 
     def triangle_area(b, h) -> float:
