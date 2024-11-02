@@ -4,7 +4,6 @@ from tkinter import font
 from commands.addTodo import add_task
 from todo.importance import Importance
 import xml.etree.ElementTree as ET
-
 class View:
     def __init__(self, main, xml_file: str) -> None: # main is an instance of App but due to circular import problems I was unable to import App
         self.root: Tk = main.instance
@@ -31,53 +30,68 @@ class View:
                 self.create_entry(element)
             elif element.tag == "radiobutton":
                 self.create_radiobutton(element)
+            elif element.tag == "seperator":
+                self.create_seperator(element)
 
-    def create_label(self, element) -> None:
-        label = self._create_widget(Label, element, text=element.get('text', ''))
+    def create_label(self, element: ET.Element) -> None:
+        label: Label = self._create_widget(Label, element, text=element.get('text', ''))
         label.grid(**self._get_grid_options(element))
 
-    def create_title(self, element) -> None:
-        title = self._create_widget(Label, element, text=element.get('text', ''), font=font.Font(family="Helvetica", size=20))
+    def create_title(self, element: ET.Element) -> None:
+        title: Label = self._create_widget(Label, element, text=element.get('text', ''), font=font.Font(family="Helvetica", size=20))
         title.grid(**self._get_grid_options(element))
 
-    def create_button(self, element) -> None:
-        command_name = element.get('command', 'self.placeholder')
-        args_str = element.get('args', '')
+    def create_button(self, element: ET.Element) -> None:
+        command_name: str = element.get('command', 'self.placeholder')
+        args_str: str = element.get('args', '')
         # Set up some predefined variables to be used.
-        safe_context = {
+        safe_context: dict = {
             'root': self.main,
             'elements': self.elements,
             'add_task': add_task,
             'self': self,
         }
         command_function = safe_context.get(command_name) or getattr(self, command_name, self.placeholder)
-        command_args = eval(f'({args_str})', safe_context)
-        button = self._create_widget(Button, element, text=element.get('text', ''),
+        command_args: tuple = eval(f'({args_str})', safe_context)
+        button: Button = self._create_widget(Button, element, text=element.get('text', ''),
                                     command=lambda: command_function(*command_args))
         button.grid(**self._get_grid_options(element))
 
 
-    def create_entry(self, element) -> None:
-        entry = self._create_widget(Entry, element, width=int(element.get('length', 0)))
+    def create_entry(self, element: ET.Element) -> None:
+        entry: Entry = self._create_widget(Entry, element, width=int(element.get('length', 0)))
         entry.grid(**self._get_grid_options(element))
+    def create_seperator(self, element: ET.Element) -> None:
+        orient: str = element.get('orient', 'horizontal')
+        if orient not in ["horizontal", "vertical"]:
+            print(f"Warning: Invalid orient '{orient}', defaulting to 'horizontal'")
+            orient = "horizontal"
+        separator: Separator = self._create_widget(Separator, element, orient=orient)
+        grid_options = self._get_grid_options(element)
+        if 'columnspan' not in grid_options:
+            grid_options['columnspan'] = 10
+            grid_options['sticky'] = 'ew'
+        
+        separator.grid(**grid_options)
 
-    def create_radiobutton(self, element) -> None:
-        value = element.get('value', '')
-        variable_id = element.get('variable', None)
+
+    def create_radiobutton(self, element: ET.Element) -> None:
+        value: str = element.get('value', '')
+        variable_id: str = element.get('variable', None)
         if variable_id:
             if variable_id not in self.elements:
                 self.elements[variable_id] = StringVar()
-            var = self.elements[variable_id]
+            var: StringVar = self.elements[variable_id]
         else:
             var = StringVar()
-        radiobutton = self._create_widget(Radiobutton, element, text=element.get('text', ''),
+        radiobutton: Radiobutton = self._create_widget(Radiobutton, element, text=element.get('text', ''),
                                           variable=var, value=value)
         radiobutton.grid(**self._get_grid_options(element))
 
     def _create_widget(self, widget_class, element, **kwargs):
-        element_id = element.get('id') or str(len(self.elements) + 1)
+        element_id: str = element.get('id') or str(len(self.elements) + 1)
         widget = widget_class(self.root, **kwargs)
-        self.elements[element_id] = widget     
+        self.elements[element_id] = widget
         return widget
 
 
@@ -88,6 +102,7 @@ class View:
             'column': int(element.get('column', 0)),
             'padx': int(element.get('padx', 0)),
             'pady': int(element.get('pady', 0)),
+            'ipadx': int(element.get('ipadx', 0)),
+            'ipady': int(element.get('ipady', 0)),
             'sticky': element.get('sticky', "")
         }
-

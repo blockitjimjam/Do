@@ -2,7 +2,7 @@ import os
 import sys
 class SystemUtils:
     @staticmethod
-    def add_to_sys_path(dir_path):
+    def add_to_sys_path(dir_path: str) -> None:
         abs_path = os.path.abspath(dir_path)
         if abs_path not in sys.path:
             sys.path.append(abs_path)
