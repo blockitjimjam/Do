@@ -14,5 +14,6 @@ class App:
         self.view: View = View(self, "./views/home.xml")
         self.tasks: list = []
 if __name__ == "__main__":
-    app: App = App("Do", (550, 500))
+    app: App = App("Do", (570, 700))
     app.instance.mainloop()
+

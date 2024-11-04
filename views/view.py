@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import font
-from commands.addTodo import add_task
+from commands import add_task, save_task_config
 from todo.importance import Importance
 import xml.etree.ElementTree as ET
 """This class reads an xml file and grids tkinter elements! how epic"""
@@ -50,13 +50,17 @@ class View:
             'elements': self.elements,
             'add_task': add_task,
             'self': self,
+            'save_task_config': save_task_config
         }
         command_function = safe_context.get(command_name) or getattr(self, command_name, self.placeholder)
-        command_args: tuple = eval(f'({args_str})', safe_context)
-        button: Button = self._create_widget(Button, element, text=element.get('text', ''),
-                                    command=lambda: command_function(*command_args))
-        button.grid(**self._get_grid_options(element))
-
+        if args_str.strip():
+            command_args: tuple = eval(f'({args_str},)', safe_context)
+            button: Button = self._create_widget(Button, element, text=element.get('text', ''),
+                                        command=lambda: command_function(*command_args))
+            button.grid(**self._get_grid_options(element))
+        else:
+            button: Button = self._create_widget(Button, element, text=element.get('text', ''))
+            button.grid(**self._get_grid_options(element))
 
     def create_entry(self, element: ET.Element) -> None:
         entry: Entry = self._create_widget(Entry, element, width=int(element.get('length', 0)))

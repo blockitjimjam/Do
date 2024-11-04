@@ -1,12 +1,14 @@
 <tkview>
 	<window title="Do - Home"/>
 	<layout>
-		<title text="Todo App" row="0" column="0" center="ew"/>
-		<entry padx="10" row="1" column="0" length="50" id="todo_name"/>
-		<button row="1" column="2" text="Add Todo" padx="10" ipadx="30" command="add_task" args="root, elements.get('todo_name')"/>
-		<radiobutton id="highimp" text="High importance" row="2" column="0" pady="5" variable="options" value="1" />
-		<radiobutton id="medimp" text="Medium importance" row="3" column="0" pady="5" variable="options" value="2" />
-        <radiobutton id="lowimp" text="Low importance" row="4" column="0" pady="5" variable="options" value="3" />
-		<seperator orient="horizontal" row="6" column="0" pady="10" padx="5"/>
+		<button row="0" column="0" text="Save Tasks" padx="10" pady="20" ipadx="30" command="save_task_config" args="root"/>
+		<button row="0" column="1" text="Load Tasks" padx="10" pady="20" ipadx="30"/>
+		<title text="Todo App" row="1" column="0" center="ew"/>
+		<entry padx="10" row="2" column="0" length="50" id="todo_name"/>
+		<button row="2" column="1" text="Add Todo" padx="10" ipadx="30" command="add_task" args="root, elements.get('todo_name')"/>
+		<radiobutton id="highimp" text="High importance" row="3" column="0" pady="5" variable="options" value="1" />
+		<radiobutton id="medimp" text="Medium importance" row="4" column="0" pady="5" variable="options" value="2" />
+        <radiobutton id="lowimp" text="Low importance" row="5" column="0" pady="5" variable="options" value="3" />
+		<seperator orient="horizontal" row="7" column="0" pady="10" padx="5"/>
 	</layout>
 </tkview>
