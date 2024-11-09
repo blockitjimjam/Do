@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import font
-from commands import add_task, save_task_config
+from commands import add_task, save_task_config, load_task_config
 from todo.importance import Importance
 import xml.etree.ElementTree as ET
 """This class reads an xml file and grids tkinter elements! how epic"""
@@ -50,7 +50,8 @@ class View:
             'elements': self.elements,
             'add_task': add_task,
             'self': self,
-            'save_task_config': save_task_config
+            'save_task_config': save_task_config,
+            'load_task_config': load_task_config
         }
         command_function = safe_context.get(command_name) or getattr(self, command_name, self.placeholder)
         if args_str.strip():

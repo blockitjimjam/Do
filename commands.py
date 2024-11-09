@@ -19,5 +19,20 @@ def save_task_config(app) -> None:
         if file is not None:  
             save_data = {}
             for task in app.tasks:
-                save_data[task.name] = task.desc
+                save_data[task.name] = [task.desc, Importance.value(Importance, task.importance)] # This code is a bit bodged
             json.dump(save_data, file, indent=4)
+def load_task_config(app) -> None:
+    with askopenfile(mode='r', defaultextension=".json", filetypes=[("Json files", "*.json"), ("Do files", "*.dotasks")]) as file:
+        if file is not None:
+            rm_tasks(app)
+            load_data = json.load(file)
+            app.tasks = []
+            for task_name, task_data in load_data.items():
+                desc, importance = task_data
+                task = Todo(importance=importance, name=task_name, desc=desc, root=app.instance)
+                app.tasks.append(task)
+def rm_tasks(app) -> None:
+    for task in app.tasks[:]:
+        task.todoelement.delete_element()
+        app.tasks.remove(task)
+        
